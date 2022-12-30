@@ -12,7 +12,7 @@ import java.util.List;
 
 @WebServlet(name = "UserServlet", value = "/users")
 public class UserServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
     private static UserDAO userDAO;
 
     public void init() {
@@ -101,8 +101,10 @@ public class UserServlet extends HttpServlet {
         String country = request.getParameter("country");
         User newUser = new User(name, email, country);
         userDAO.insertUser(newUser);
+        request.setAttribute("message","abc");
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/create.jsp");
         dispatcher.forward(request, response);
+
     }
 
     private static void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -113,6 +115,7 @@ public class UserServlet extends HttpServlet {
 
         User book = new User(id, name, email, country);
         userDAO.updateUser(book);
+        request.setAttribute("message","abc");
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/edit.jsp");
         dispatcher.forward(request, response);
     }

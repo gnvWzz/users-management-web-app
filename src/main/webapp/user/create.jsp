@@ -50,5 +50,10 @@
         </table>
     </form>
 </div>
+<c:if test="${requestScope['message'] != null}">
+    <script>
+        alert("Successfully created!");
+    </script>
+</c:if>
 </body>
 </html>
