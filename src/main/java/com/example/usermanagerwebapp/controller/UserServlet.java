@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "UserServlet", value = "/users")
@@ -36,6 +37,15 @@ public class UserServlet extends HttpServlet {
                 case "delete":
                     deleteUser(request, response);
                     break;
+                case "findByCountry":
+                    showFindByCountryForm(request, response);
+                    break;
+                case "sortUsersByNameASC":
+                    sortByNameASC(request, response);
+                    break;
+                case "sortUsersByNameDES":
+                    sortByNameDES(request, response);
+                    break;
                 default:
                     listUser(request, response);
                     break;
@@ -43,6 +53,28 @@ public class UserServlet extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+
+    private void sortByNameDES(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<User> userListSortedByNameDES = userDAO.sortUsersByNameDES();
+        request.setAttribute("listUser",userListSortedByNameDES);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/list.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
+    private void sortByNameASC(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<User> userListSortedByNameASC = userDAO.sortUsersByNameASC();
+        request.setAttribute("listUser",userListSortedByNameASC);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/list.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
+    private void showFindByCountryForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String country = request.getParameter("findCountry");
+        List<User> usersFindedByCountry = userDAO.findUsersByCountry(country);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("user/list.jsp");
+        request.setAttribute("listUser",usersFindedByCountry);
+        requestDispatcher.forward(request, response);
     }
 
     private static void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
