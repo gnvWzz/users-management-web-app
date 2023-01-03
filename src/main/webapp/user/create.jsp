@@ -12,12 +12,10 @@
     <title>User Management</title>
 </head>
 <body>
-<center>
-    <h1>User Management</h1>
-    <h2>
-        <a href="users?action=users">List All Users</a>
-    </h2>
-</center>
+<label>
+    <a href="users"><input type="button" value="Back to users list"></a>
+    <a href="${pageContext.request.contextPath}/users?action=create"><input type="button" value="Add a new user"></a>
+</label>
 <div align="center">
     <form method="post">
         <table border="1" cellpadding="5">
